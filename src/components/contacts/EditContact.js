@@ -3,13 +3,26 @@ import { Consumer } from "../../context";
 import TextInputGroup from "../../layout/TextInputGroup";
 import axios from "axios";
 
-class AddContact extends Component {
+class EditContact extends Component {
   state = {
     name: "",
     email: "",
     phone: "",
     errors: {}
   };
+
+  async componentDidMount() {
+    const { id } = this.props.match.params;
+    const response = await axios.get(
+      `https://jsonplaceholder.typicode.com/${id}`
+    );
+    const contact = response.data;
+    this.setState({
+      name: contact.name,
+      email: contact.email,
+      phone: contact.phone
+    });
+  }
 
   onSubmit = async (dispatch, e) => {
     e.preventDefault();
@@ -23,18 +36,6 @@ class AddContact extends Component {
     if (phone === "") {
       this.setState({ errors: { name: "Phone is required" } });
     }
-
-    const newContact = {
-      name,
-      email,
-      phone
-    };
-
-    const response = await axios.post(
-      "https://jsonplaceholder.typicode.com/users",
-      newContact
-    );
-    dispatch({ type: "ADD_CONTACT", payload: response.data });
 
     this.setState({
       name: "",
@@ -53,7 +54,7 @@ class AddContact extends Component {
           const { dispatch } = value;
           return (
             <div className="card mb-3">
-              <div className="card-header">Add Contact</div>
+              <div className="card-header">Edit Contact</div>
               <div className="card-body">
                 <form onSubmit={this.onSubmit.bind(this, dispatch)}>
                   <TextInputGroup
@@ -83,8 +84,8 @@ class AddContact extends Component {
                   />
                   <input
                     type="submit"
-                    value="Add Contact"
-                    className="btn btn-dark btn-block"
+                    value="Update Contact"
+                    className="btn btn-light btn-block"
                   />
                 </form>
               </div>
@@ -96,4 +97,4 @@ class AddContact extends Component {
   }
 }
 
-export default AddContact;
+export default EditContact;
