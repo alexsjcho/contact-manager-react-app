@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const Header = props => {
   const { branding } = props;
@@ -12,7 +11,7 @@ const Header = props => {
           {branding}
         </a>
         <div>
-          <ul className="nvabar-nav mr-auto">
+          <ul className="navbar-nav mr-auto">
             <li className="nav-item">
               <Link to="/" className="nav-link">
                 <i className="fas fa-home" /> Home
@@ -36,7 +35,7 @@ const Header = props => {
 };
 
 Header.defaultProps = {
-  branding: "Contact Manager"
+  branding: "My App"
 };
 
 Header.propTypes = {
